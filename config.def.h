@@ -2,21 +2,20 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
+static const unsigned int gappih    = 5;       /* horiz inner gap between windows */
+static const unsigned int gappiv    = 5;       /* vert inner gap between windows */
+static const unsigned int gappoh    = 5;       /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 5;       /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
-static const char *fonts[]          = { "-*-fira code-medium-*-*-*-*-*-*-*-*-*-*-*" };
-//static const char *fonts[]          = { "monospace:size=10" };
+static const int topbar             = 1;        /* 0 means bottom bar */
+static const char *fonts[]          = { "WenQuanYi Micro Hei:size=18" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -75,6 +74,9 @@ static const char *realquit[] = { "pkill", "dwm-wrapper", NULL };
 static const char *volumnup[] = { "pamixer", "-i", "5", NULL };
 static const char *volumndown[] = { "pamixer", "-d", "5", NULL };
 static const char *volumntoggle[] = { "pamixer", "-t", NULL };
+static const char *screenshot[] = { "flameshot", "gui", NULL };
+static const char *brightdown[] = { "xbacklight", "-dec", "5", NULL };
+static const char *brightup[] = { "xbacklight", "-inc", "5", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -132,9 +134,12 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_a,      spawn,          {.v = screenshot } },
 	{ 0,                            XF86XK_AudioRaiseVolume,      spawn,           {.v = volumnup} },
 	{ 0,                            XF86XK_AudioLowerVolume,      spawn,           {.v = volumndown} },
 	{ 0,                            XF86XK_AudioMute,      spawn,           {.v = volumntoggle} },
+	{ 0,                            XF86XK_MonBrightnessDown,      spawn,           {.v = brightdown} },
+	{ 0,                            XF86XK_MonBrightnessUp,      spawn,           {.v = brightup} },
 };
 
 /* button definitions */
@@ -145,7 +150,12 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button1,        togglewin,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
+	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
+	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
+	{ ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} },
+	{ ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
+	{ ClkStatusText,        ShiftMask,              Button1,        sigdwmblocks,   {.i = 6} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
