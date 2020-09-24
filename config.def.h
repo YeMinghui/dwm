@@ -15,22 +15,22 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "WenQuanYi Micro Hei:size=18" };
+static const char *fonts[]          = { "WenQuanYi Micro Hei:size=14" };
 static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static const char col_gray1[]       = "#1d2330";
+static const char col_gray2[]       = "#4b5665";
+static const char col_gray3[]       = "#ad69af";
+static const char col_gray4[]       = "#d1d7e1";
+static const char col_cyan[]        = "#84598d";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+	[SchemeNorm] = { col_gray4, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 	[SchemeHid]  = { col_cyan,  col_gray1, col_cyan  },
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -38,6 +38,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
+    { "firefox",  NULL,       NULL,       2,            False,       -1 },
+    { "Steam",  "Steam",       NULL,       1<<5,            True,       -1 },
+    { "Vmware",  NULL,       NULL,       1<<8,            False,       -1 },
+    { "Vmplayer",  NULL,       NULL,       1<<7,            False,       -1 },
     { NULL,       NULL,       NULL,       0,            False,       -1 },
 };
 
@@ -150,12 +154,7 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button1,        togglewin,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
-	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
-	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
-	{ ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} },
-	{ ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
-	{ ClkStatusText,        ShiftMask,              Button1,        sigdwmblocks,   {.i = 6} },
+	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
